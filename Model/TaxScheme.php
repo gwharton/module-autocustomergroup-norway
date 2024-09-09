@@ -1,4 +1,5 @@
 <?php
+
 namespace Gw\AutoCustomerGroupNorway\Model;
 
 use Gw\AutoCustomerGroup\Api\Data\TaxIdCheckResponseInterface;

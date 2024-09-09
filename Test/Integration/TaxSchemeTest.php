@@ -11,7 +11,6 @@ use Magento\Framework\App\Config\ReinitableConfigInterface;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\GuestCartManagementInterface;
 use Magento\Quote\Api\GuestCartRepositoryInterface;
-use Magento\Quote\Model\Quote;
 use Magento\Store\Model\Information as StoreInformation;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
