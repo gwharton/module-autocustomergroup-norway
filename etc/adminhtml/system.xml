@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="autocustomergroup">
+            <group id="norwayvoec" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Norway VOEC Scheme</label>
+                <comment><![CDATA[
+<div class="autocustomergroup-schemeoverview">
+<p>This Scheme applies to shipments being sent from anywhere in the world to Consumers (Not B2B transactions) in Norway.</p>
+<p>As of 1st April 2020, all sellers must (if their turnover to Norway exceeds 50,000 NOK) register for the Norway VOEC scheme,
+    and collect Norwegian VAT for B2C transactions at the point of sale and remit to the Norwegian Government.</p>
+<p>The module assumes the following rules :</p>
+<ul>
+    <li><b>Domestic</b> - For shipments within Norway, normal Norway VAT rules apply.</li>
+    <li><b>Import B2B</b> - For shipments from outside of Norway to Norway and the buyer presents a Norway Business Number, then
+        VAT should not be charged.</li>
+    <li><b>Import Taxed</b> - For imports into Norway, where the value of each individual item is below or equal to 3,000 NOK, then
+        Norway VAT should be charged.</li>
+    <li><b>Import Untaxed</b> - For imports into Norway, where one or more individual items value is above 3,000 NOK, then VAT should
+        NOT be charged and instead will be collected at the Norwegian border along with any duties due.</li>
+</ul>
+<p>For the Norway VOEC Scheme, the following applies (This can be confirmed in
+    <a href="https://www.skatteetaten.no/globalassets/bedrift-og-organisasjon/voec/voec-guidelines-mars-2024.pdf"
+    target="_blank">Section 4</a>) :</p>
+<ul>
+    <li>When determining whether VAT should be charged (VAT Threshold) Shipping or Insurance Costs are not included in the value of the goods.</li>
+    <li>When determining the amount of VAT to charge the Goods value does include Shipping and Insurance Costs.</li>
+</ul>
+<p>The <a href="https://www.skatteetaten.no/globalassets/bedrift-og-organisasjon/voec/voec-guidelines-mars-2024.pdf"
+    target="_blank">Online Stores and Marketplace Guidelines</a> refers to bundling in Section 4 where it states that multiple items can be shipped in a single shipment,
+    and it is the cost of each item that determines whether VAT should be charged on each item, so a consignment of 10 items, each sold for
+    1,000 NOK, should still have VAT charged at the point of sale even though the total order value exceeds 3,000 NOK. The guidance recommends if an order contains a mix
+    of above and below threshold items, that the order is split into separate orders. <b>Because of this, this module assumes that if
+    any one single item in a shipment is above the threshold in value, then the entire order does not have VAT applied. Orders sent in
+    this way will be processed at the Norwegian border with VAT being charged as appropriate. This is still in accordance with Section 4 of the above guidance.</b>
+<p>More information on the scheme can be found on the
+    <a href="https://www.skatteetaten.no/en/business-and-organisation/vat-and-duties/vat/foreign/e-commerce-voec/" target="_blank">Norwegian Tax Administration Website</a></p>
+<p>Norwegian Business Numbers are verified by a simple test that they are 9 digit numbers beginning with 8 or 9. No online lookups are performed.</p>
+</div>
+                    ]]></comment>
+                <depends>
+                    <field id="autocustomergroup/general/enabled">1</field>
+                </depends>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="frontendprompt" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Tax Identifier Field - Customer Prompt</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="registrationnumber" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>VOEC Registration Number</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="importthreshold" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Import VAT Threshold (NOK)</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="usemagentoexchangerate" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Use Magento Exchange Rate</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="exchangerate" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Exchange Rate</label>
+                    <comment>
+                        <![CDATA[
+                        The exchange rate to convert from NOK to Store Base Currency. It is recommended to use the Norwegian Customs exchange rates, which can be found on the
+                        <a href="https://www.toll.no/en/services/exchange-rates/" target="_blank">Norwegian Customs Website</a>. Note, the published rates
+                        are for conversion to NOK, so will need to be converted (NOK to Store Currency = 1/Published Rate).
+                        ]]></comment>
+                    <depends>
+                        <field id="usemagentoexchangerate">0</field>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="importthresholdstorecurrency" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1">
+                    <label>Import VAT Threshold (Store Base Currency)</label>
+                    <frontend_model>NoVatImportThresholdStoreBaseCurrency</frontend_model>
+                    <comment>If the price of any item within the order is above this value then no VAT should be charged on the order.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="domestic" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customer Group - Domestic</label>
+                    <source_model>Gw\AutoCustomerGroup\Model\Config\Source\Group</source_model>
+                    <comment>Merchant Country is in Norway, Item is being shipped to Norway.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="importb2b" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customer Group - Import B2B</label>
+                    <source_model>Gw\AutoCustomerGroup\Model\Config\Source\Group</source_model>
+                    <comment>Merchant Country is not in Norway, Item is being shipped to Norway, Norwegian Business Number Supplied.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="importtaxed" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customer Group - Import Taxed</label>
+                    <source_model>Gw\AutoCustomerGroup\Model\Config\Source\Group</source_model>
+                    <comment>Merchant Country is not in Norway, Item is being shipped to Norway, All items in the order are valued below or equal to the Import VAT Threshold.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="importuntaxed" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customer Group - Import Untaxed</label>
+                    <source_model>Gw\AutoCustomerGroup\Model\Config\Source\Group</source_model>
+                    <comment>Merchant Country is not in Norway, Item is being shipped to Norway, One or more items in the order is valued above the Import VAT Threshold.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
