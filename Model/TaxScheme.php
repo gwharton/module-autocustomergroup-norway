@@ -99,9 +99,9 @@ class TaxScheme implements TaxSchemeInterface
     /**
      * Get customer group based on Validation Result and Country of customer
      * @param string $customerCountryCode
-     * @param string|null $customerPostCode
      * @param bool $taxIdValidated
      * @param float $orderValue
+     * @param string|null $customerPostCode
      * @param int|null $storeId
      * @return int|null
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -110,9 +110,9 @@ class TaxScheme implements TaxSchemeInterface
      */
     public function getCustomerGroup(
         string $customerCountryCode,
-        ?string $customerPostCode,
         bool $taxIdValidated,
         float $orderValue,
+        ?string $customerPostCode,
         ?int $storeId
     ): ?int {
         $merchantCountry = $this->scopeConfig->getValue(
@@ -195,13 +195,13 @@ class TaxScheme implements TaxSchemeInterface
      * customer."
      *
      * @param string $countryCode
-     * @param string|null $taxId
+     * @param string $taxId
      * @return TaxIdCheckResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function checkTaxId(
         string $countryCode,
-        ?string $taxId
+        string $taxId
     ): TaxIdCheckResponseInterface {
         $taxIdCheckResponse = $this->ticrFactory->create();
 

@@ -183,9 +183,9 @@ class TaxSchemeTest extends TestCase
         );
         $result = $this->taxScheme->getCustomerGroup(
             $customerCountryCode,
-            $customerPostCode,
             $taxIdValidated,
             $orderValue,
+            $customerPostCode,
             $storeId
         );
         $this->assertEquals($expectedGroup, $result);
@@ -251,7 +251,6 @@ class TaxSchemeTest extends TestCase
         //IsValid
         return [
             ['NO', '',                  false],
-            ['NO', null,                false],
             ['NO', '846398568',         true], // Valid format
             ['NO', '957216895',         true], // Valid format
             ['NO', '214153351',         false],
