@@ -122,8 +122,7 @@ class TaxScheme implements TaxSchemeInterface
         );
         if (empty($merchantCountry)) {
             $this->logger->critical(
-                "Gw/AutoCustomerGroupNorway/Model/TaxScheme::getCustomerGroup() : " .
-                "Merchant country not set."
+                __METHOD__ . " Merchant country not set"
             );
             return null;
         }
@@ -354,9 +353,12 @@ class TaxScheme implements TaxSchemeInterface
                 ->getAnyRate($websiteBaseCurrency);
             if (!$exchangerate) {
                 $this->logger->critical(
-                    "Gw/AutoCustomerGroupNorway/Model/TaxScheme::getSchemeExchangeRate() : " .
-                    "No Magento Exchange Rate configured for " . self::SCHEME_CURRENCY . " to " .
-                    $websiteBaseCurrency . ". Using 1.0"
+                    __METHOD__ . " No Exchange Rate configured. Using 1.0",
+                    [
+                        'Scheme Currency' => self::SCHEME_CURRENCY,
+                        'Base Currency' => $websiteBaseCurrency,
+
+                    ]
                 );
                 $exchangerate = 1.0;
             }
