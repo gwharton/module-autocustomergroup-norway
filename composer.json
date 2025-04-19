@@ -5,12 +5,14 @@
     "require": {
         "gwharton/module-autocustomergroup": "*",
         "magento/framework": "*",
-        "magento/module-catalog": "*",
         "magento/module-directory": "*",
         "magento/module-quote": "*",
         "magento/module-store": "*",
         "psr/log": "*",
         "ext-pcre": "*"
+    },
+    "require-dev": {
+        "magento/module-catalog": "*"
     },
     "config": {
         "sort-packages": true
